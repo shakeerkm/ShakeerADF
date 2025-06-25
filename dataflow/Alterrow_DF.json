@@ -1,0 +1,49 @@
+{
+	"name": "Alterrow_DF",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "filter_source",
+						"type": "DatasetReference"
+					},
+					"name": "sourcecountry"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sinkdata"
+				}
+			],
+			"transformations": [
+				{
+					"name": "alterRow"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          emp_id as string,",
+				"          name as string,",
+				"          salary as string,",
+				"          address as string,",
+				"          loc as string,",
+				"          email as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> sourcecountry",
+				"sourcecountry alterRow(deleteIf(address=='usa'),",
+				"     updateIf(name=='manish')) ~> alterRow",
+				"alterRow sink(validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     store: 'cache',",
+				"     format: 'inline',",
+				"     output: false,",
+				"     saveOrder: 1) ~> sinkdata"
+			]
+		}
+	}
+}

@@ -1,0 +1,115 @@
+{
+	"name": "Json1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "employee_data.json",
+				"container": "input"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"company": {
+					"type": "string"
+				},
+				"location": {
+					"type": "string"
+				},
+				"departments": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"department_id": {
+								"type": "integer"
+							},
+							"name": {
+								"type": "string"
+							},
+							"manager": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"email": {
+										"type": "string"
+									}
+								}
+							},
+							"employees": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"emp_id": {
+											"type": "integer"
+										},
+										"name": {
+											"type": "string"
+										},
+										"role": {
+											"type": "string"
+										},
+										"skills": {
+											"type": "array",
+											"items": {
+												"type": "string"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"projects": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"project_id": {
+								"type": "string"
+							},
+							"title": {
+								"type": "string"
+							},
+							"department": {
+								"type": "string"
+							},
+							"status": {
+								"type": "string"
+							},
+							"budget": {
+								"type": "integer"
+							},
+							"milestones": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"milestone": {
+											"type": "string"
+										},
+										"due_date": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

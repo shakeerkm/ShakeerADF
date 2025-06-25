@@ -1,0 +1,55 @@
+{
+	"name": "select_Df",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "employees",
+						"type": "DatasetReference"
+					},
+					"name": "source"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sinkselect"
+				}
+			],
+			"transformations": [
+				{
+					"name": "selecttransformation"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          empId as string,",
+				"          name as string,",
+				"          gender as string,",
+				"          doj as string,",
+				"          depid as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source",
+				"source select(mapColumn(",
+				"          EmpId = empId,",
+				"          Empname = name,",
+				"          Gender = gender,",
+				"          DOJ = doj,",
+				"          DepId = depid",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selecttransformation",
+				"selecttransformation sink(validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     store: 'cache',",
+				"     format: 'inline',",
+				"     output: false,",
+				"     saveOrder: 1) ~> sinkselect"
+			]
+		}
+	}
+}

@@ -1,0 +1,47 @@
+{
+	"name": "Assert_Df",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "employees",
+						"type": "DatasetReference"
+					},
+					"name": "sourceemployee"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sinkemployees"
+				}
+			],
+			"transformations": [
+				{
+					"name": "assertemployees"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          empId as string,",
+				"          name as string,",
+				"          gender as string,",
+				"          doj as string,",
+				"          depid as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> sourceemployee",
+				"sourceemployee assert(expectTrue(!isNull(toDate(doj,'yyyyMMdd')), false, 'assertdoj', null, 'checking doj rows')) ~> assertemployees",
+				"assertemployees sink(validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     store: 'cache',",
+				"     format: 'inline',",
+				"     output: false,",
+				"     saveOrder: 1) ~> sinkemployees"
+			]
+		}
+	}
+}

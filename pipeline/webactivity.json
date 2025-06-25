@@ -1,0 +1,31 @@
+{
+	"name": "webactivity",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "GET",
+					"url": "https://shakeervault.vault.azure.net/secrets/shakiii/88fdf8a58b0b4d0e82add4e8cb12899d?api-version=7.5",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://vault.azure.net"
+					}
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-06-18T12:02:28Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

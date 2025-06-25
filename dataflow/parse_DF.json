@@ -1,0 +1,52 @@
+{
+	"name": "parse_DF",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					},
+					"name": "sourceparse"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "parsedata"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Id as integer,",
+				"          Name as string,",
+				"          SerialNumber as string,",
+				"          IsActive as boolean,",
+				"          CreatedAt as timestamp,",
+				"          address as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> sourceparse",
+				"sourceparse parse(address = address ? (city as string,",
+				"          zipcode as string),",
+				"     format: 'json',",
+				"     documentForm: 'singleDocument') ~> parsedata",
+				"parsedata sink(validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     store: 'cache',",
+				"     format: 'inline',",
+				"     output: false,",
+				"     saveOrder: 1) ~> sink"
+			]
+		}
+	}
+}

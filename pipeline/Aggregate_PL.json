@@ -1,0 +1,34 @@
+{
+	"name": "Aggregate_PL",
+	"properties": {
+		"activities": [
+			{
+				"name": "Aggregate_DF",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "Aggregate_DF",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-06-23T11:56:20Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,56 @@
+{
+	"name": "Storedprocedure_pl",
+	"properties": {
+		"activities": [
+			{
+				"name": "Stored procedure1",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[IOT].[InsertTelemetry]",
+					"storedProcedureParameters": {
+						"DeviceId": {
+							"value": {
+								"value": "@pipeline().parameters.deviceid",
+								"type": "Expression"
+							},
+							"type": "Int32"
+						},
+						"Temperature": {
+							"value": {
+								"value": "@pipeline().parameters.temperature",
+								"type": "Expression"
+							},
+							"type": "Double"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSql_Db",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"deviceid": {
+				"type": "int",
+				"defaultValue": 12
+			},
+			"temperature": {
+				"type": "int",
+				"defaultValue": 20
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-06-19T10:06:42Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

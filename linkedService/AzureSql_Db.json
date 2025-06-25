@@ -1,0 +1,17 @@
+{
+	"name": "AzureSql_Db",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"server": "shakiserver.database.windows.net",
+			"database": "shakeersqldb",
+			"encrypt": "mandatory",
+			"trustServerCertificate": false,
+			"authenticationType": "SQL",
+			"userName": "shakii",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQENDRkY4NTlELTM1RjctNDE1QS1CQTdFLTI1OTc0MjVBNEFGN182M2FlMTQ3ZC0wMjc0LTQwODEtYTQ5MS05NDE0NjQxYmQwNmYiDQp9"
+		}
+	}
+}

@@ -1,0 +1,92 @@
+{
+	"name": "join_DF",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "join_emp",
+						"type": "DatasetReference"
+					},
+					"name": "employee"
+				},
+				{
+					"dataset": {
+						"referenceName": "join_dept",
+						"type": "DatasetReference"
+					},
+					"name": "department"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "sink_empdept",
+						"type": "DatasetReference"
+					},
+					"name": "sink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "join",
+					"description": "inner join on 'employee' and 'department'"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          employee_id as short,",
+				"          first_name as string,",
+				"          last_name as string,",
+				"          email as string,",
+				"          phone_number as string,",
+				"          hire_date as date,",
+				"          job_id as string,",
+				"          salary as short,",
+				"          manager_id as double,",
+				"          department_id as short",
+				"     ),",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> employee",
+				"source(output(",
+				"          department_id as integer,",
+				"          department_name as string,",
+				"          manager_id as integer,",
+				"          location as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> department",
+				"employee, department join(employee@department_id == department@department_id,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join",
+				"join sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['empdept'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          employee_id,",
+				"          first_name,",
+				"          last_name,",
+				"          email,",
+				"          phone_number,",
+				"          hire_date,",
+				"          job_id,",
+				"          salary,",
+				"          manager_id = employee@manager_id,",
+				"          department_id = employee@department_id,",
+				"          department_id = department@department_id,",
+				"          department_name,",
+				"          manager_id = department@manager_id,",
+				"          location",
+				"     ),",
+				"     partitionBy('hash', 1)) ~> sink"
+			]
+		}
+	}
+}

@@ -1,0 +1,48 @@
+{
+	"name": "Aggregate_DF",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "employees",
+						"type": "DatasetReference"
+					},
+					"name": "Employees"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sinkemployees"
+				}
+			],
+			"transformations": [
+				{
+					"name": "aggregateonDEP"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          empId as string,",
+				"          name as string,",
+				"          gender as string,",
+				"          doj as string,",
+				"          depid as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> Employees",
+				"Employees aggregate(groupBy(depid),",
+				"     TotalEmployees = count(empId)) ~> aggregateonDEP",
+				"aggregateonDEP sink(validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     store: 'cache',",
+				"     format: 'inline',",
+				"     output: false,",
+				"     saveOrder: 1) ~> sinkemployees"
+			]
+		}
+	}
+}

@@ -1,0 +1,40 @@
+{
+	"name": "IOT_Device_DB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSql_Db",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SerialNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IsActive",
+				"type": "bit"
+			},
+			{
+				"name": "CreatedAt",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "IOT",
+			"table": "Device"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

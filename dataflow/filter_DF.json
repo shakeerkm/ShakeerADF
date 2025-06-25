@@ -1,0 +1,48 @@
+{
+	"name": "filter_DF",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "filter_source",
+						"type": "DatasetReference"
+					},
+					"name": "sourcefile"
+				}
+			],
+			"sinks": [
+				{
+					"name": "filtersink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "filtertransform"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          emp_id as string,",
+				"          name as string,",
+				"          salary as string,",
+				"          address as string,",
+				"          loc as string,",
+				"          email as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> sourcefile",
+				"sourcefile filter(equals(address,'india')) ~> filtertransform",
+				"filtertransform sink(validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     store: 'cache',",
+				"     format: 'inline',",
+				"     output: false,",
+				"     saveOrder: 1) ~> filtersink"
+			]
+		}
+	}
+}

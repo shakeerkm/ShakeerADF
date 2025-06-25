@@ -1,0 +1,31 @@
+{
+	"name": "EventTrigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "appendpl",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "copydatapipeline",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/input/blobs/emp_data/",
+			"blobPathEndsWith": "employee_data.csv",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/860551bc-ca3a-4bb4-96d4-dac82d815561/resourceGroups/BIPIoTInternal/providers/Microsoft.Storage/storageAccounts/storageaccountshakeer",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}

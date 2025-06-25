@@ -1,0 +1,54 @@
+{
+	"name": "Cast_Df",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "employees",
+						"type": "DatasetReference"
+					},
+					"name": "source"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sinkcast"
+				}
+			],
+			"transformations": [
+				{
+					"name": "castemployees"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          empId as short,",
+				"          name as string,",
+				"          gender as string,",
+				"          doj as string,",
+				"          depid as short",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source",
+				"source cast(output(",
+				"          empId as integer,",
+				"          name as string,",
+				"          gender as string,",
+				"          doj as date 'yyyyMMdd',",
+				"          depid as integer",
+				"     ),",
+				"     errors: true) ~> castemployees",
+				"castemployees sink(validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     store: 'cache',",
+				"     format: 'inline',",
+				"     output: false,",
+				"     saveOrder: 1) ~> sinkcast"
+			]
+		}
+	}
+}
